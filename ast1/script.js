@@ -100,7 +100,7 @@ for (var i = 0; i < numberOfButton.length; i++) {
 
 //For Arrow
 function plusSlides(n) {
-  if (imageNumber > 1 && imageNumber < numberOfButton.length) {
+  if ((imageNumber > 1 && imageNumber < numberOfButton.length) || (imageNumber ===1 && n === 1)) {
     previousImageNumber = imageNumber;
     imageNumber += n;
     currentImageNumber = imageNumber;
