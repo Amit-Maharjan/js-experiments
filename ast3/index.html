@@ -8,12 +8,20 @@
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
   </head>
   <body>
-    <canvas id="canvas">
+    <img
+      src="images/gamestart.png"
+      alt="Start Game"
+      id="play-game"
+      onclick="playGame()"
+    />
+
+    <canvas id="canvas" onclick="reload(event)">
       <img src="images/background.png" alt="Background" />
       <img src="images/pipeup.png" alt="Pipe Up" />
       <img src="images/pipedown.png" alt="Pipe Down" />
       <img src="images/footground.PNG" alt="Footground" />
       <img src="images/bird.png" alt="Bird" />
+      <img src="images/playAgain.png" alt="Play Again" />
     </canvas>
 
     <script src="script.js"></script>
