@@ -56,12 +56,12 @@ function playGame() {
   const birdX = 10;
   let birdY = canvas.height / 2;
   const gravity = 2;
-
+  let accelerationDueToGravity = 0.1;
   let pipe = [];
 
   pipe[0] = {
     pipeX: canvas.width,
-    pipeY: getRandomInt(-100, 0), //0,
+    pipeY: getRandomInt(-150, 0), //0,
     gapForPipeDown: pipeup.height + getRandomInt(100, 200),
   };
 
@@ -77,7 +77,7 @@ function playGame() {
         pipe[i].pipeY + pipe[i].gapForPipeDown
       );
 
-      pipe[i].pipeX--;
+      pipe[i].pipeX -= 4; //X-coordinate of pipe is deduced by 4 to make it move fast
 
       if (pipe[i].pipeX === 100) {
         pipe.push({
@@ -129,7 +129,7 @@ function playGame() {
         flagForReload = 1;
       }
 
-      if (pipe[i].pipeX === 5) {
+      if (pipe[i].pipeX === 4) {
         scoreIncrement.play();
         score++;
       }
@@ -144,7 +144,8 @@ function playGame() {
     );
     ctx.drawImage(bird, birdX, birdY, 34 * 2, 24 * 2);
 
-    birdY += gravity;
+    accelerationDueToGravity += 0.1;
+    birdY += gravity * accelerationDueToGravity;
 
     //requestAnimationFrame(drawImages);
 
@@ -159,6 +160,7 @@ function playGame() {
 
   function moveUp(event) {
     if (event.keyCode === 38) {
+      accelerationDueToGravity = 0.1;
       birdY -= 30;
       pressKey.play();
     }
