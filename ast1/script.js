@@ -7,34 +7,10 @@ var IMGWIDTH = 600;
 var imageNumber = 1;
 var previousImageNumber = 0;
 var currentImageNumber = 1;
-/*
-function delay(second) {
-  for (var i = 0; i <= second; i++) {
-    for (var j = 0; j <= second; j++) {}
-  }
-}*/
-/*
-function slide() {
-  if (leftMargin === 0) goLeft = -1;
-  else if(leftMargin === MAXWIDTH) goLeft = 1;
-
-  leftMargin += goLeft;
-
-  slider.style.marginLeft = leftMargin + 'px';
-
-  if(leftMargin % 600 === 0){
-  delay(100000);
-  }
-
-  window.requestAnimationFrame(slide);
-}
-
-slide();
-*/
 
 var buttons = document.getElementsByClassName('button');
 
-function myfunc() {
+function slideImage() {
   var slide = setInterval(function() {
     if (leftMargin === 0) goLeft = -20;
     else if (leftMargin === MAXWIDTH) goLeft = 20;
@@ -42,18 +18,16 @@ function myfunc() {
     leftMargin += goLeft;
 
     slider.style.marginLeft = leftMargin + 'px';
-
     if (goLeft === -20 || leftMargin === 0) {
       if (leftMargin % IMGWIDTH === 0) {
-        //delay(100000);
         clearInterval(slide);
 
         previousImageNumber = currentImageNumber;
         currentImageNumber++;
-        if(imageNumber === 0) currentImageNumber = 1;
+        if (imageNumber === 0) currentImageNumber = 1;
         imageNumber++;
 
-        setTimeout(myfunc, 2000);
+        setTimeout(slideImage, 2000);
       }
     } else {
       previousImageNumber = buttons.length;
@@ -61,12 +35,14 @@ function myfunc() {
       imageNumber = 0;
     }
     //For Button Being Activated
-    buttons[previousImageNumber-1].className = buttons[previousImageNumber-1].className.substr(0,6);
-    buttons[currentImageNumber-1].className += ' active';
+    buttons[previousImageNumber - 1].className = buttons[
+      previousImageNumber - 1
+    ].className.substr(0, 6);
+    buttons[currentImageNumber - 1].className += ' active';
   }, 1);
 }
 
-myfunc();
+slideImage();
 
 //For Button Being Displayed
 var container = document.getElementById('container');
@@ -100,20 +76,38 @@ for (var i = 0; i < numberOfButton.length; i++) {
 
 //For Arrow
 function plusSlides(n) {
-  if ((imageNumber > 1 && imageNumber < numberOfButton.length) || (imageNumber ===1 && n === 1)) {
+  if (
+    (imageNumber > 1 && imageNumber < numberOfButton.length) ||
+    (imageNumber === 1 && n === 1) ||
+    (imageNumber === numberOfButton.length && n === -1)
+  ) {
     previousImageNumber = imageNumber;
     imageNumber += n;
     currentImageNumber = imageNumber;
-    leftMargin = -(imageNumber - 1) * IMGWIDTH;
-    slider.style.marginLeft = leftMargin + 'px';
-    buttons[previousImageNumber-1].className = buttons[previousImageNumber-1].className.substr(0,6);
-    buttons[currentImageNumber-1].className += ' active';
+
+    var targetLeftMargin = -(imageNumber - 1) * IMGWIDTH;
+
+    var goRight;
+    if (n === 1) goRight = 20;
+    else if (n === -1) goRight = -20;
+
+    var nextPrevImage = setInterval(function() {
+      leftMargin -= goRight;
+      slider.style.marginLeft = leftMargin + 'px';
+
+      if (leftMargin === targetLeftMargin) clearInterval(nextPrevImage);
+
+      if (previousImageNumber === 1 && n === 1) goLeft = -20;
+    }, 1);
+
+    //slider.style.marginLeft = leftMargin + 'px';
+
+    buttons[previousImageNumber - 1].className = buttons[
+      previousImageNumber - 1
+    ].className.substr(0, 6);
+    buttons[currentImageNumber - 1].className += ' active';
   }
 }
-
-//For Button Being Activated
-//var buttons = document.getElementsByClassName('button');
-//buttons[imageNumber].className += ' active';
 
 //For Button Being Activated
 for (var i = 1; i <= buttons.length; i++) {
@@ -126,6 +120,8 @@ function currentSlide(n) {
   currentImageNumber = imageNumber;
   leftMargin = -(imageNumber - 1) * IMGWIDTH;
   slider.style.marginLeft = leftMargin + 'px';
-  buttons[previousImageNumber-1].className = buttons[previousImageNumber-1].className.substr(0,6);
-  buttons[currentImageNumber-1].className += ' active';
+  buttons[previousImageNumber - 1].className = buttons[
+    previousImageNumber - 1
+  ].className.substr(0, 6);
+  buttons[currentImageNumber - 1].className += ' active';
 }
