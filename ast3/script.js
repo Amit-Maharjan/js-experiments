@@ -173,8 +173,9 @@ function reload(event) {
   if (flagForReload === 1) {
     let x = event.clientX;
     let y = event.clientY;
-    if (x >= 430 && x <= 745 && (y >= 450 && y <= 530)) {
+    if (x >= 590 && x <= 900 && (y >= 450 && y <= 530)) {
       //location.reload();
+      flagForReload = 0;
       playGame();
     }
   }
