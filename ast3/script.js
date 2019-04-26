@@ -53,8 +53,15 @@ function playGame() {
   }
 
   //const gapForPipeDown = pipeup.height + getRandomInt(100,200);
-  const birdX = 10;
-  let birdY = canvas.height / 2;
+  // const birdX = 10;
+  // let birdY = canvas.height / 2;
+
+  //Bird Class
+  let birds = {
+    birdX: 10,
+    birdY: canvas.height / 2,
+  };
+
   const gravity = 2;
   let accelerationDueToGravity = 0.1;
   let pipe = [];
@@ -89,12 +96,12 @@ function playGame() {
 
       //Game Over
       if (
-        (birdX + bird.width * 2 >= pipe[i].pipeX &&
-          birdX <= pipe[i].pipeX + pipeup.width &&
-          (birdY <= pipe[i].pipeY + pipeup.height ||
-            birdY + bird.height * 2 >=
+        (birds.birdX + bird.width * 2 >= pipe[i].pipeX &&
+          birds.birdX <= pipe[i].pipeX + pipeup.width &&
+          (birds.birdY <= pipe[i].pipeY + pipeup.height ||
+            birds.birdY + bird.height * 2 >=
               pipe[i].pipeY + pipe[i].gapForPipeDown)) ||
-        birdY + bird.height * 2 >= canvas.height - footground.height
+        birds.birdY + bird.height * 2 >= canvas.height - footground.height
       ) {
         die.play();
 
@@ -142,10 +149,10 @@ function playGame() {
       canvas.width,
       footground.height
     );
-    ctx.drawImage(bird, birdX, birdY, 34 * 2, 24 * 2);
+    ctx.drawImage(bird, birds.birdX, birds.birdY, 34 * 2, 24 * 2);
 
     accelerationDueToGravity += 0.1;
-    birdY += gravity * accelerationDueToGravity;
+    birds.birdY += gravity * accelerationDueToGravity;
 
     //requestAnimationFrame(drawImages);
 
@@ -161,7 +168,7 @@ function playGame() {
   function moveUp(event) {
     if (event.keyCode === 38) {
       accelerationDueToGravity = 0.1;
-      birdY -= 30;
+      birds.birdY -= 30;
       pressKey.play();
     }
   }
