@@ -1,8 +1,8 @@
-const numberOfBalls = 200;
+const numberOfBalls = 1000;
 const startAngle = 0;
 const PI = Math.PI;
 const endAngle = 2 * PI;
-const radius = 10;
+const radius = 5;
 const xMin = 0 + radius;
 const xMax = window.innerWidth - 25 - radius;
 const yMin = 0 + radius;
@@ -62,9 +62,22 @@ function getRandomInt(min, max) {
 //Object
 let circles = [];
 
+let j = 0;
+let k = 0;
+
 for (let i = 0; i < numberOfBalls; i++) {
-  let x = getRandomInt(xMin, xMax);
-  let y = getRandomInt(yMin, yMax);
+  // let x = getRandomInt(xMin, xMax);
+  // let y = getRandomInt(yMin, yMax);
+
+  let x = getRandomInt(j * 27 + radius, (j + 1) * 27 - radius);
+  j++;
+  let y = getRandomInt(k * 40 + radius, (k + 1) * 40 - radius);
+
+  if (j === 55) {
+    k++;
+    j = 0;
+  }
+
   let rValue = getRandomInt(0, 255);
   let gValue = getRandomInt(0, 255);
   let bValue = getRandomInt(0, 255);
@@ -103,7 +116,7 @@ function animate() {
 
   for (let i = 0; i < circles.length; i++) {
     circles[i].update();
-    //checkCollisione();
+    //checkCollision();
   }
   checkCollision();
 }
