@@ -5,13 +5,17 @@ var goLeft = -20;
 var MAXWIDTH = -1800;
 var IMGWIDTH = 600;
 var imageNumber = 1;
-var previousImageNumber = 0;
+var previousImageNumber = 1;
 var currentImageNumber = 1;
 
 var buttons = document.getElementsByClassName('button');
 
+var arrowFlag = 1;
+
 function slideImage() {
   var slide = setInterval(function() {
+    arrowFlag = 0;
+
     if (leftMargin === 0) goLeft = -20;
     else if (leftMargin === MAXWIDTH) goLeft = 20;
 
@@ -26,6 +30,8 @@ function slideImage() {
         currentImageNumber++;
         if (imageNumber === 0) currentImageNumber = 1;
         imageNumber++;
+
+        arrowFlag = 1;
 
         setTimeout(slideImage, 2000);
       }
@@ -76,36 +82,50 @@ for (var i = 0; i < numberOfButton.length; i++) {
 
 //For Arrow
 function plusSlides(n) {
-  if (
-    (imageNumber > 1 && imageNumber < numberOfButton.length) ||
-    (imageNumber === 1 && n === 1) ||
-    (imageNumber === numberOfButton.length && n === -1)
-  ) {
-    previousImageNumber = imageNumber;
-    imageNumber += n;
-    currentImageNumber = imageNumber;
+  if (arrowFlag === 1) {
+    if (
+      (imageNumber > 1 && imageNumber < numberOfButton.length) ||
+      (imageNumber === 1 && n === 1) ||
+      (imageNumber === numberOfButton.length && n === -1)
+    ) {
+      arrowFlag = 0;
 
-    var targetLeftMargin = -(imageNumber - 1) * IMGWIDTH;
+      previousImageNumber = imageNumber;
+      imageNumber += n;
+      currentImageNumber = imageNumber;
 
-    var goRight;
-    if (n === 1) goRight = 20;
-    else if (n === -1) goRight = -20;
+      var targetLeftMargin = -(imageNumber - 1) * IMGWIDTH;
 
-    var nextPrevImage = setInterval(function() {
-      leftMargin -= goRight;
-      slider.style.marginLeft = leftMargin + 'px';
+      var goRight;
+      if (n === 1) goRight = 20;
+      else if (n === -1) goRight = -20;
 
-      if (leftMargin === targetLeftMargin) clearInterval(nextPrevImage);
+      var nextPrevImage = setInterval(function() {
+        leftMargin -= goRight;
 
-      if (previousImageNumber === 1 && n === 1) goLeft = -20;
-    }, 1);
+        if (leftMargin < MAXWIDTH) {
+          leftMargin = MAXWIDTH;
+        } else if (leftMargin > 0) {
+          leftMargin = 0;
+        }
 
-    //slider.style.marginLeft = leftMargin + 'px';
+        slider.style.marginLeft = leftMargin + 'px';
 
-    buttons[previousImageNumber - 1].className = buttons[
-      previousImageNumber - 1
-    ].className.substr(0, 6);
-    buttons[currentImageNumber - 1].className += ' active';
+        if (leftMargin === targetLeftMargin) {
+          clearInterval(nextPrevImage);
+          arrowFlag = 1;
+        }
+
+        if (previousImageNumber === 1 && n === 1) goLeft = -20;
+      }, 1);
+
+      //slider.style.marginLeft = leftMargin + 'px';
+
+      buttons[previousImageNumber - 1].className = buttons[
+        previousImageNumber - 1
+      ].className.substr(0, 6);
+      buttons[currentImageNumber - 1].className += ' active';
+    }
   }
 }
 

@@ -1,24 +1,25 @@
-#container{
+#container {
   border: 1px solid black;
-  width:600px;
-  height:450px;
+  width: 600px;
+  height: 450px;
   margin: auto;
   overflow: hidden;
   position: relative;
 }
 
-#slider-image{
+#slider-image {
   width: 2400px;
   margin-bottom: -4px;
 }
 
-#slider-image img{
-  width:600px;
+#slider-image img {
+  width: 600px;
   margin-right: -4px;
 }
 
 /* Next & previous buttons */
-.prev, .next {
+.prev,
+.next {
   cursor: pointer;
   position: absolute;
   top: 50%;
@@ -39,11 +40,11 @@
 }
 
 /* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
-.active{
+.active {
   background-color: red;
 }
-
